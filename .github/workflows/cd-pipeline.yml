@@ -1,0 +1,41 @@
+name: CD pipeline
+on:
+  push:
+    branches:
+      - main
+jobs:
+  build-service:
+    name: Build demo service
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: Setup JDK
+        uses: actions/setup-java@v2
+        with:
+          distribution: temurin
+          java-version: 17
+          cache: gradle
+      - name: Compile and test application
+        run: |
+          cd demo-service
+          chmod +x gradlew
+          ./gradlew build
+  package-service:
+    name: Package demo service
+    needs: [build-service]
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v2
+      - name: Setup JDK
+        uses: actions/checkout@v2
+        with:
+          distribution: temurin
+          java-version: 17
+          cache: gradle
+      - name: Containerized and publish image
+        run: |
+          cd demo-service
+          chmod +x gradlew
+          ./gradlew bootBuildImage --publishImage --imageName ekshams/demo-service:0.0.1-SNAPSHOT -PregistryUrl=${{ secrets.REGISTRY_URL }} -PregistryUsername=${{ secrets.REGISTRY_USERNAME }} -PregistryToken=${{ secrets.REGISTRY_TOKEN }}
