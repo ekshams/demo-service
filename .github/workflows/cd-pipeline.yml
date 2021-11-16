@@ -36,4 +36,4 @@ jobs:
       - name: Containerized and publish image
         run: |
           chmod +x gradlew
-          ./gradlew bootBuildImage
+          ./gradlew bootBuildImage --publishImage --imageName ekshams/demo-service:0.0.1-SNAPSHOT -PregistryUrl=${{ secrets.REGISTRY_URL }} -PregistryUsername=${{ secrets.REGISTRY_USERNAME }} -PregistryToken=${{ secrets.REGISTRY_TOKEN }}

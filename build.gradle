@@ -26,4 +26,11 @@ test {
 
 bootBuildImage{
 	imageName = "ekshams/${rootProject.name}:${version}"
+	docker {
+		publishRegistry {
+			username = project.findProperty("registryUsername")
+			password = project.findProperty("registryToken")
+			url = project.findProperty("registryUrl")
+		}
+	}
 }
