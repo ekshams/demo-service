@@ -18,7 +18,6 @@ jobs:
           cache: gradle
       - name: Compile and test application
         run: |
-#          cd demo-service
           chmod +x gradlew
           ./gradlew build
   package-service:
@@ -36,6 +35,5 @@ jobs:
           cache: gradle
       - name: Containerized and publish image
         run: |
-#          cd demo-service
           chmod +x gradlew
           ./gradlew bootBuildImage --publishImage --imageName ekshams/demo-service:0.0.1-SNAPSHOT -PregistryUrl=${{ secrets.REGISTRY_URL }} -PregistryUsername=${{ secrets.REGISTRY_USERNAME }} -PregistryToken=${{ secrets.REGISTRY_TOKEN }}
